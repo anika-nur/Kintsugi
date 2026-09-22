@@ -1,0 +1,749 @@
+/*
+ * Kintsugi: dusty slate-blue sky, cream parchment and gold, with Cinzel Decorative
+ * headings and Garamond text, following the style of anika-nur.github.io.
+ */
+
+:root {
+  --bg-top: #5f7a8c;
+  --bg: #748ea0;
+  --bg-low: #849cad;
+  --card: rgba(58, 76, 92, 0.42);
+  --card-line: rgba(240, 229, 208, 0.22);
+  --cream: #f0e5d0;
+  --cream-soft: rgba(240, 229, 208, 0.82);
+  --cream-faint: rgba(240, 229, 208, 0.4);
+  --parchment: #f3ead9;
+  --ink: #2a2038;
+  --ink2: #3e3254;
+  --ink3: #5a4a70;
+  --rose: #c4948a;
+  --gold: #c9a96e;
+  --gold2: #a08848;
+  --gold-bright: #ecd29a;
+  --radius: 16px;
+  --display: "Cinzel Decorative", Georgia, serif;
+  --serif: "EB Garamond", Georgia, serif;
+  --italic: "Crimson Text", Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(180, 194, 212, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 70%, rgba(196, 148, 138, 0.14) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 45%, var(--bg-low) 100%);
+  background-color: var(--bg);
+  color: var(--cream);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+/* A scatter of faint stars, as on the inspiration site */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 18%, rgba(255, 250, 235, 0.7), transparent),
+    radial-gradient(1px 1px at 22% 64%, rgba(255, 250, 235, 0.55), transparent),
+    radial-gradient(1.5px 1.5px at 41% 9%, rgba(255, 250, 235, 0.6), transparent),
+    radial-gradient(1px 1px at 57% 82%, rgba(255, 250, 235, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 73% 24%, rgba(255, 250, 235, 0.65), transparent),
+    radial-gradient(1px 1px at 88% 52%, rgba(255, 250, 235, 0.55), transparent),
+    radial-gradient(1.5px 1.5px at 94% 12%, rgba(255, 250, 235, 0.6), transparent),
+    radial-gradient(1px 1px at 33% 38%, rgba(255, 250, 235, 0.45), transparent);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+
+.hero {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 64px) 20px 8px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--cream-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 7vw, 4.4rem);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  color: var(--cream);
+  text-shadow: 0 2px 18px rgba(42, 32, 56, 0.25);
+}
+
+.description {
+  max-width: 720px;
+  margin: 18px auto 0;
+  color: var(--cream);
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  line-height: 1.65;
+  text-shadow: 0 1px 10px rgba(42, 32, 56, 0.25);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 24px 0 0;
+  color: var(--gold-bright);
+  font-size: 1.1rem;
+}
+
+.divider span {
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cream-faint));
+}
+
+.divider span:last-child {
+  transform: scaleX(-1);
+}
+
+/* ---------- Layout ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
+  align-items: start;
+  gap: clamp(16px, 4vw, 56px);
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(12px, 2vw, 32px) clamp(16px, 3vw, 48px) 48px;
+}
+
+/* ---------- Bowl ---------- */
+
+/* The bowl stays in view while the form scrolls on large screens */
+.stage {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+#bowl-svg {
+  display: block;
+  width: 100%;
+  max-height: 78vh;
+}
+
+/* Shake pivots around the foot of the bowl */
+#bowl-shake {
+  transform-box: fill-box;
+  transform-origin: 50% 95%;
+}
+
+/* Invisible, wide hit area around each crack so thin lines are easy to hover */
+.crack-hit {
+  cursor: pointer;
+  transition: stroke-opacity 0.2s;
+}
+
+.is-hover .crack-hit {
+  stroke: var(--gold-bright);
+  stroke-opacity: 0.16;
+}
+
+/* The crack chosen for mending breathes softly */
+.is-selected .crack-hit {
+  stroke: var(--gold-bright);
+  animation: selected-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes selected-pulse {
+  0%, 100% { stroke-opacity: 0.02; }
+  50% { stroke-opacity: 0.1; }
+}
+
+.status {
+  min-height: 1.5em;
+  margin: 2px 0 0;
+  color: var(--cream-soft);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* ---------- Panel ---------- */
+
+.panel {
+  width: 100%;
+  max-width: 520px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 20px;
+  padding: 22px;
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 0 18px 40px rgba(42, 32, 56, 0.18);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.step-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+}
+
+.step-num {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold-bright);
+  font-family: var(--serif);
+  font-size: 1rem;
+}
+
+.field-label {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+textarea {
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.4;
+  resize: none;
+  box-shadow: inset 0 1px 3px rgba(42, 32, 56, 0.12);
+}
+
+textarea::placeholder {
+  color: #8a7f92;
+  font-style: italic;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(236, 210, 154, 0.45);
+}
+
+textarea:disabled {
+  opacity: 0.55;
+}
+
+.hint {
+  margin: -4px 0 14px;
+  color: var(--cream-soft);
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.privacy {
+  margin: 4px 0 0;
+  color: var(--cream-soft);
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* ---------- Open cracks waiting to be mended ---------- */
+
+.open-cracks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.open-cracks:empty {
+  display: none;
+}
+
+.crack-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--card-line);
+  border-radius: 999px;
+  background: rgba(240, 229, 208, 0.06);
+  color: var(--cream);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.crack-choice::before {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--cream-soft);
+  border-radius: 50%;
+}
+
+.crack-choice span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crack-choice:hover {
+  border-color: var(--cream-soft);
+}
+
+.crack-choice[aria-pressed="true"] {
+  border-color: var(--gold-bright);
+  background: rgba(236, 210, 154, 0.16);
+}
+
+.crack-choice[aria-pressed="true"]::before {
+  border-color: var(--gold-bright);
+  background: var(--gold-bright);
+}
+
+.crack-choice:focus-visible {
+  outline: 3px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+/* ---------- "What helped" / "Something good" toggle ---------- */
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 0 14px;
+  padding: 4px;
+  border: 1px solid var(--card-line);
+  border-radius: 999px;
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented label {
+  padding: 9px 8px;
+  border-radius: 999px;
+  color: var(--cream-soft);
+  font-size: 1.05rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.segmented input:checked + label {
+  background: var(--parchment);
+  color: var(--ink2);
+}
+
+.segmented input:focus-visible + label {
+  outline: 3px solid var(--gold-bright);
+  outline-offset: 1px;
+}
+
+.segmented:disabled {
+  opacity: 0.55;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  padding: 12px 20px;
+  border: 1px solid var(--cream-faint);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cream);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--cream);
+  background: rgba(240, 229, 208, 0.08);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.btn.crack-btn {
+  padding: 14px 24px;
+  border-color: var(--cream-soft);
+  font-size: 1.15rem;
+}
+
+.btn.primary {
+  padding: 14px 24px;
+  border: none;
+  background: linear-gradient(135deg, var(--gold2), var(--gold-bright) 50%, var(--gold));
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 500;
+  box-shadow: 0 8px 22px rgba(42, 32, 56, 0.2);
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--gold2), var(--gold-bright) 50%, var(--gold));
+  filter: brightness(1.06);
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--card-line);
+}
+
+.tools .btn {
+  flex: 1 1 140px;
+  font-size: 0.95rem;
+}
+
+/* ---------- Keepsakes ---------- */
+
+.keep-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.btn.keep-btn {
+  border-color: var(--gold-bright);
+  color: var(--gold-bright);
+}
+
+/* Cracks in a replay can't be hovered until they have appeared */
+.is-pending .crack-hit {
+  pointer-events: none;
+}
+
+.view-panel {
+  gap: 10px;
+  text-align: center;
+}
+
+.view-panel .eyebrow {
+  margin: 0;
+}
+
+.view-panel h2,
+.dialog h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.view-meta {
+  margin: 0 0 4px;
+  color: var(--cream-soft);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.view-panel .hint {
+  margin: 0 0 8px;
+}
+
+.btn.link-btn {
+  border-color: transparent;
+  color: var(--cream-soft);
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Dialogs (name a keepsake, My bowls) ---------- */
+
+.dialog {
+  padding: 0;
+  border: 1px solid var(--card-line);
+  border-radius: calc(var(--radius) + 4px);
+  background: linear-gradient(180deg, #62798b, #536a7c);
+  color: var(--cream);
+  box-shadow: 0 30px 80px rgba(42, 32, 56, 0.45);
+}
+
+.dialog::backdrop {
+  background: rgba(42, 32, 56, 0.45);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.dialog-body {
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.keep-dialog {
+  width: min(460px, calc(100vw - 32px));
+  text-align: center;
+}
+
+.keep-dialog input {
+  width: 100%;
+  margin: 18px 0 8px;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.keep-dialog input::placeholder {
+  color: #8a7f92;
+  font-style: italic;
+}
+
+.keep-dialog input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(236, 210, 154, 0.45);
+}
+
+.dialog-note {
+  margin: 0 0 20px;
+  color: var(--cream-soft);
+  font-family: var(--italic);
+  font-style: italic;
+}
+
+.dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gallery {
+  width: min(1040px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+}
+
+.gallery-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 20px;
+}
+
+.gallery-head .eyebrow {
+  margin: 0 0 2px;
+}
+
+.gallery-empty {
+  margin: 12px 0 8px;
+  color: var(--cream-soft);
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.keepsake-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 14px 16px;
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius);
+  background: rgba(240, 229, 208, 0.06);
+  color: var(--cream);
+  font-family: var(--serif);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.keepsake-card:hover {
+  border-color: var(--gold-bright);
+  background: rgba(240, 229, 208, 0.1);
+  transform: translateY(-2px);
+}
+
+.keepsake-card:focus-visible {
+  outline: 3px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+.keepsake-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.keepsake-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.keepsake-meta {
+  color: var(--cream-soft);
+  font-size: 0.9rem;
+}
+
+/* ---------- Tooltip ---------- */
+
+.tooltip {
+  position: fixed;
+  z-index: 10;
+  max-width: min(340px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border: 1px solid rgba(236, 210, 154, 0.55);
+  border-radius: 12px;
+  background: rgba(42, 32, 56, 0.92);
+  box-shadow: 0 12px 30px rgba(42, 32, 56, 0.35);
+  color: var(--cream);
+  pointer-events: none;
+  font-size: 1.05rem;
+}
+
+.tip-row + .tip-row {
+  margin-top: 8px;
+}
+
+.tip-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tip-label.hard {
+  color: #d7c9e4;
+}
+
+.tip-label.gold {
+  color: var(--gold-bright);
+}
+
+.tip-open {
+  margin-top: 8px;
+  color: var(--cream-soft);
+  font-family: var(--italic);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* ---------- Phones and narrow screens: bowl on top, form below ---------- */
+
+@media (max-width: 860px) {
+  .hero {
+    padding-top: 28px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 8px 16px 40px;
+  }
+
+  /* Keep the bowl pinned at the top while typing so the crack and gold stay visible */
+  .stage {
+    top: 0;
+    z-index: 1;
+    margin: 0 -16px;
+    padding: 8px 16px 4px;
+    background: rgba(116, 142, 160, 0.9);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  .panel {
+    max-width: none;
+  }
+
+  #bowl-svg {
+    max-height: 34vh;
+  }
+
+  .step {
+    padding: 18px;
+  }
+}
