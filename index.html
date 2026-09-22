@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kintsugi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Crimson+Text:ital@0;1&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">— the art of golden repair —</p>
+    <h1>Kintsugi</h1>
+    <p class="description">
+      Kintsugi is the Japanese practice of mending broken pottery with seams of gold — the repair
+      made visible instead of hidden. Here, you write through a hard stretch of your life: each
+      difficulty becomes a crack in a rendered bowl, and each thing that carried you through it
+      becomes the gold filling that crack.
+    </p>
+    <div class="divider" aria-hidden="true"><span></span>✦<span></span></div>
+  </header>
+
+  <main class="layout">
+    <!-- The bowl. Static parts live here; app.js fills in the body shape and adds cracks. -->
+    <section class="stage" id="stage" aria-label="The bowl">
+      <svg id="bowl-svg" viewBox="0 105 800 470" role="img" aria-labelledby="bowl-title">
+        <title id="bowl-title">A ceramic bowl mended with gold</title>
+        <defs>
+          <!-- Matte ink-plum glaze: shaded left to right like a curved surface lit from the upper left.
+               (For a softer blush-rose bowl: #8f5f5c #c08c85 #e6bfb5 #d2a79e #a8766f #7e5350,
+               interior #f6ecdc #e7d2c0 #c09c90, foot #7a524e #c79a91 #6f4845, and CRACK_COLOR #3b2626 in app.js.) -->
+          <linearGradient id="glaze" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#1f1830"/>
+            <stop offset="0.18" stop-color="#3a2e50"/>
+            <stop offset="0.36" stop-color="#5c4c78"/>
+            <stop offset="0.6" stop-color="#4a3d63"/>
+            <stop offset="0.85" stop-color="#2f2642"/>
+            <stop offset="1" stop-color="#1c1629"/>
+          </linearGradient>
+
+          <!-- Darkens the underside of the bowl for depth -->
+          <linearGradient id="underside" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#000" stop-opacity="0"/>
+            <stop offset="0.55" stop-color="#000" stop-opacity="0.04"/>
+            <stop offset="1" stop-color="#000" stop-opacity="0.38"/>
+          </linearGradient>
+
+          <!-- Inside of the bowl, seen through the opening -->
+          <radialGradient id="interior" cx="0.5" cy="0.62" r="0.62">
+            <stop offset="0" stop-color="#7a6a96"/>
+            <stop offset="0.55" stop-color="#5a4a74"/>
+            <stop offset="1" stop-color="#342a4a"/>
+          </radialGradient>
+
+          <!-- Foot ring -->
+          <linearGradient id="foot" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#231b33"/>
+            <stop offset="0.35" stop-color="#4d3f66"/>
+            <stop offset="1" stop-color="#1d1629"/>
+          </linearGradient>
+
+          <!-- Metallic gold. app.js slides this gradient continuously to make the shimmer. -->
+          <linearGradient id="gold" gradientUnits="userSpaceOnUse"
+                          x1="0" y1="0" x2="180" y2="70" spreadMethod="reflect">
+            <stop offset="0" stop-color="#7a5a18"/>
+            <stop offset="0.3" stop-color="#c89b35"/>
+            <stop offset="0.5" stop-color="#fff0b3"/>
+            <stop offset="0.68" stop-color="#d9ae45"/>
+            <stop offset="1" stop-color="#8c6b21"/>
+          </linearGradient>
+
+          <!-- Fine grain so the glaze reads as matte ceramic, not flat vector -->
+          <filter id="grain" filterUnits="userSpaceOnUse" x="0" y="0" width="800" height="620">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+          </filter>
+
+          <filter id="soft-blur" filterUnits="userSpaceOnUse" x="0" y="0" width="800" height="620">
+            <feGaussianBlur stdDeviation="14"/>
+          </filter>
+
+          <!-- Cracks are clipped to the bowl body so they can never spill outside it -->
+          <clipPath id="body-clip">
+            <path id="body-clip-path"/>
+          </clipPath>
+        </defs>
+
+        <!-- Shadow on the table -->
+        <ellipse cx="400" cy="512" rx="210" ry="26" fill="#1c2633" opacity="0.5" filter="url(#soft-blur)"/>
+
+        <!-- Everything inside this group shakes together -->
+        <g id="bowl-shake">
+          <path id="bowl-foot" fill="url(#foot)"/>
+          <ellipse id="bowl-interior" fill="url(#interior)"/>
+          <path id="bowl-body" fill="url(#glaze)"/>
+          <path id="bowl-underside" fill="url(#underside)"/>
+          <g clip-path="url(#body-clip)">
+            <rect x="0" y="0" width="800" height="620" filter="url(#grain)" opacity="0.09"/>
+            <!-- Broad, faint sheen: matte glaze still catches a little light -->
+            <ellipse cx="300" cy="300" rx="90" ry="60" fill="#fff" opacity="0.12" filter="url(#soft-blur)"/>
+          </g>
+          <!-- Rim: a lighter lip plus a thin inner line to suggest thickness -->
+          <ellipse id="bowl-rim" fill="none" stroke="#efe3cc" stroke-width="5"/>
+          <ellipse id="bowl-rim-inner" fill="none" stroke="#1f1830" stroke-opacity="0.45" stroke-width="1.5"/>
+
+          <!-- Cracks and gold seams are added here by app.js -->
+          <g id="cracks" clip-path="url(#body-clip)"></g>
+        </g>
+      </svg>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel">
+      <!-- Making a bowl -->
+      <div id="make-panel">
+      <!-- Step 1: each difficulty becomes a crack. autocomplete="off" keeps the browser from remembering entries. -->
+      <form id="hard-form" class="step" autocomplete="off" novalidate>
+        <label for="hard" class="step-title"><span class="step-num">1</span>What was hard?</label>
+        <textarea id="hard" maxlength="100" rows="2" spellcheck="false"
+                  placeholder="Watch the crack form as you write"></textarea>
+        <button type="submit" class="btn crack-btn">Add crack</button>
+      </form>
+
+      <!-- Step 2: mend an open crack with what helped, or with something good that happened -->
+      <form id="mend-form" class="step" autocomplete="off" novalidate>
+        <p class="step-title"><span class="step-num">2</span>Mend a crack</p>
+        <p id="no-open" class="hint">Add something that was hard first. Its crack will wait here to be mended.</p>
+        <div id="open-cracks" class="open-cracks" role="group" aria-label="Open cracks"></div>
+
+        <fieldset class="segmented" id="mend-kind">
+          <legend class="sr-only">Mend with</legend>
+          <input type="radio" id="kind-helped" name="kind" value="helped" checked>
+          <label for="kind-helped">What helped</label>
+          <input type="radio" id="kind-good" name="kind" value="good">
+          <label for="kind-good">Something good</label>
+        </fieldset>
+
+        <label for="mend" id="mend-label" class="field-label">What helped?</label>
+        <textarea id="mend" maxlength="100" rows="2" spellcheck="false"
+                  placeholder="Then press “Mend with gold”"></textarea>
+        <p id="mend-hint" class="hint">Nothing helped? Choose “Something good” and name any good moment, however small. It mends the crack too.</p>
+        <button type="submit" id="mend-btn" class="btn primary">Mend with gold</button>
+      </form>
+
+      <div class="keep-row">
+        <button type="button" id="keep-btn" class="btn keep-btn">Keep this bowl</button>
+        <button type="button" id="bowls-btn" class="btn">My bowls</button>
+      </div>
+
+      <p class="privacy">Hover over a crack or seam to read it back. Your words are never sent anywhere. They’re saved only when you keep a bowl, and only in this browser on this device.</p>
+
+      <div class="tools">
+        <button type="button" id="sample-btn" class="btn">Add sample pairs</button>
+        <button type="button" id="reset-btn" class="btn">Reset bowl</button>
+      </div>
+      </div>
+
+      <!-- Viewing a keepsake -->
+      <div id="view-panel" class="step view-panel" hidden>
+        <p class="eyebrow">— a keepsake —</p>
+        <h2 id="view-name"></h2>
+        <p id="view-meta" class="view-meta"></p>
+        <p class="hint">Hover over a crack or seam to read its story.</p>
+        <button type="button" id="replay-btn" class="btn primary">Replay its story</button>
+        <button type="button" id="view-all-btn" class="btn">All my bowls</button>
+        <button type="button" id="back-btn" class="btn">Back to my bowl</button>
+        <button type="button" id="remove-btn" class="btn link-btn">Remove this keepsake</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Name the piece before keeping it -->
+  <dialog id="keep-dialog" class="dialog keep-dialog" aria-labelledby="keep-title">
+    <form id="keep-form" class="dialog-body" autocomplete="off">
+      <p class="eyebrow">— a keepsake —</p>
+      <h2 id="keep-title">Name this piece</h2>
+      <label for="keep-name" class="sr-only">Name</label>
+      <input id="keep-name" type="text" maxlength="60" spellcheck="false">
+      <p class="dialog-note">Kept in this browser only, words included.</p>
+      <div class="dialog-actions">
+        <button type="button" id="keep-cancel" class="btn">Cancel</button>
+        <button type="submit" class="btn primary">Keep it</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- The collection of kept bowls -->
+  <dialog id="gallery" class="dialog gallery" aria-labelledby="gallery-title">
+    <div class="dialog-body">
+      <div class="gallery-head">
+        <div>
+          <p class="eyebrow">— your collection —</p>
+          <h2 id="gallery-title">My bowls</h2>
+        </div>
+        <button type="button" id="gallery-close" class="btn">Close</button>
+      </div>
+      <p id="gallery-empty" class="gallery-empty">No bowls kept yet. When a bowl feels finished, press “Keep this bowl” and give it a name.</p>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </div>
+  </dialog>
+
+  <!-- Shows the words behind a crack or seam on hover (or tap on touch screens) -->
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+</body>
+</html>
