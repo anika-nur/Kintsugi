@@ -2,6 +2,8 @@
 
 **Live site: [kintsugi-colby.github.io](https://kintsugi-colby.github.io/)**
 
+🏆 **Runner-up (2nd prize)** at the tri-college hackathon of Bowdoin, Bates, and Colby Colleges, hosted by Bowdoin. The theme was *Art, Creativity, and Technology*.
+
 Kintsugi is the Japanese practice of mending broken pottery with seams of gold, making the repair visible instead of hiding it. This web app lets you write through a hard stretch of your life: each difficulty becomes a crack in a rendered bowl, and each thing that carried you through it becomes the gold filling that crack.
 
 ## How it works
